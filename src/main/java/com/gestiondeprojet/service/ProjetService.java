@@ -1,5 +1,5 @@
 package com.gestiondeprojet.service;
 
-public class ProjetDao {
+public class ProjetService {
 
 }

@@ -1,0 +1,8 @@
+/target/
+/additionalBuildTarget.xml
+/build.properties
+/.classpath
+/.settings
+/.project
+
+

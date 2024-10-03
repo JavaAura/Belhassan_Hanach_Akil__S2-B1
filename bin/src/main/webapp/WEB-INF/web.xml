@@ -3,7 +3,6 @@
   <display-name>project</display-name>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
-       <welcome-file>ProjectServlet</welcome-file>
   </welcome-file-list>
 
   <servlet>
@@ -15,18 +14,4 @@
     <servlet-name>TaskServelet</servlet-name>
     <url-pattern>/tasks/*</url-pattern>
   </servlet-mapping>
-  
-   <servlet>
-    <servlet-name>ProjectServlet</servlet-name>
-    <servlet-class>com.gestiondeprojet.servelets.ProjectServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>ProjectServlet</servlet-name>
-    <url-pattern>/projects/*</url-pattern>
-  </servlet-mapping>
-  
-  
-  
-  
 </web-app>

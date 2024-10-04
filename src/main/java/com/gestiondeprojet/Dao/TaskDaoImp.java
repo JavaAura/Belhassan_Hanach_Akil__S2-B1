@@ -14,7 +14,13 @@ import com.gestiondeprojet.db.DBConnection;
 
 public class TaskDaoImp implements TaskDao {
 	private Connection getConnection() {
-		return DBConnection.getInstance().getConnection();
+		try {
+			return DBConnection.getInstance().getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	  @Override

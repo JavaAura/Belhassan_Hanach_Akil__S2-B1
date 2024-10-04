@@ -3,9 +3,10 @@
   <display-name>project</display-name>
   <welcome-file-list>
 
-    <welcome-file>index.jsp</welcome-file>
-       <welcome-file>ProjectServlet</welcome-file>
+    
     <welcome-file>TaskServelet</welcome-file>
+       <welcome-file>ProjectServlet</welcome-file>
+    
 
   </welcome-file-list>
 
@@ -28,8 +29,6 @@
     <servlet-name>ProjectServlet</servlet-name>
     <url-pattern>/projects/*</url-pattern>
   </servlet-mapping>
-  
-  
-  
-  
+
+    
 </web-app>

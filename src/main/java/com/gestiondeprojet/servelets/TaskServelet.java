@@ -2,18 +2,25 @@ package com.gestiondeprojet.servelets;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
+
 import com.gestiondeprojet.Dao.TaskDao;
 import com.gestiondeprojet.Dao.TaskDaoImp;
 import com.gestiondeprojet.Enteties.Task;
+import com.gestiondeprojet.Enteties.enums.Priorite;
+import com.gestiondeprojet.Enteties.enums.Statut;
 
 
 
@@ -32,7 +39,8 @@ public class TaskServelet extends HttpServlet {
 	 @Override
 	    public void init(ServletConfig config) throws ServletException {
 		
-	    	super.init(config);  taskDao=new TaskDaoImp(); 		
+	    	super.init(config); 
+	    	taskDao=new TaskDaoImp(); 		
 	    }
 	 
 	
@@ -45,7 +53,9 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 }
 
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String action = request.getServletPath();
+    String action = request.getRequestURI().substring(request.getContextPath().length() + request.getServletPath().length());
+    
+
     switch (action) {
         case "/add":
             addNewTask(request, response);
@@ -68,16 +78,33 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     }
 }
 
-    private void addNewTask(HttpServletRequest request, HttpServletResponse response) {}
+    private void addNewTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	    
+    	    String titre = request.getParameter("titre");
+    	    String description = request.getParameter("description");
+    	    Priorite priorite = Priorite.valueOf(request.getParameter("priorite")) ;
+    	    Statut statut =   Statut.valueOf(request.getParameter("statut")) ;
+    	    LocalDate dateEcheance = LocalDate.parse(request.getParameter("dateEcheance"));
+    	    int membreId = Integer.parseInt(request.getParameter("membreId"));
+    	    Task task =new Task( titre,  description,  priorite,  statut,  dateEcheance, membreId, 1);
+    	    try {
+				taskDao.addTask(task);
+				List<Task> tasks = taskDao.getAllTasks();
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+				request.setAttribute("tasks", tasks);
+				dispatcher.forward(request, response);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    }
     private void updateTask(HttpServletRequest request, HttpServletResponse response) {}
     private void deleteTask(HttpServletRequest request, HttpServletResponse response) {}
     private void getAllTasks(HttpServletRequest request, HttpServletResponse response) {
-    	
-		
-				
-		try 
-		{List<Task> tasks = taskDao.getAllTasks();
-		    System.out.println(tasks);
+      	try 
+		{
+      		List<Task> tasks = taskDao.getAllTasks();
+      		tasks.stream().forEach(System.out::println);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
 			request.setAttribute("tasks", tasks);
 			dispatcher.forward(request, response);
@@ -90,6 +117,25 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			e.printStackTrace();
 		}		
     }
-    private void getTask(HttpServletRequest request, HttpServletResponse response) {}
+    private void getTask(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException  {
+    	int id = Integer.parseInt(request.getParameter("taskId"));						
+		System.out.println("task" + id);
+		
+		
+			
+		try 
+		{Task task = taskDao.getTaskById(id);
+		System.out.println("getEmployee, result is ==> " + task);	
+			ObjectWriter mapper = new ObjectMapper().writer().withDefaultPrettyPrinter();
+			String employeeStr = mapper.writeValueAsString(task);
+			
+			ServletOutputStream servletOutputStream = response.getOutputStream();
+			servletOutputStream.write(employeeStr.getBytes());
+		}
+		catch ( IOException  | SQLException e ) 
+		{
+			e.printStackTrace();
+		}		
+    }
   
 }

@@ -82,6 +82,7 @@ public class ProjectServlet extends HttpServlet {
             throws SQLException, ServletException, IOException {
         List<Projet> projectsList = projetService.getAllProjects();
         request.setAttribute("listProjects", projectsList);
+        System.out.println(projectsList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/projects.jsp");
         dispatcher.forward(request, response);
     }

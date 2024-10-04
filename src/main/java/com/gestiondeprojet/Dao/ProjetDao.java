@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.gestiondeprojet.Enteties.Projet;
+import com.gestiondeprojet.Enteties.Task;
 import com.gestiondeprojet.Enteties.enums.etatProjet;
 import com.gestiondeprojet.db.DBConnection;
 import com.mysql.cj.xdevapi.Statement;
@@ -97,7 +98,7 @@ public class ProjetDao {
 
 	
 	public List<Projet> selectProjects (){
-		List<Projet> projets = new ArrayList();
+		List<Projet> projets = new ArrayList<>();
 		String query = "SELECT * FROM projet";
 		try (Connection con = getConnection();
 			PreparedStatement stmt = con.prepareStatement(query)) {
@@ -108,10 +109,14 @@ public class ProjetDao {
 				if (valeur!= null) {
 					etat = etatProjet.valueOf(valeur);
 				}
+				int numberOfTasks = projectTasks(rs.getInt("id"));
+				int numberOfmembers = countProjectMembers(rs.getInt("id"));
+
                 LocalDate dateDebut = rs.getDate("dateDebut").toLocalDate();
                 LocalDate dateFin = rs.getDate("dateFin").toLocalDate();
 				Projet projet = new Projet(rs.getInt("id"), rs.getString("nom"),
-						rs.getString("description"), dateDebut, dateFin,etat);
+						rs.getString("description"), dateDebut, dateFin,etat,numberOfTasks,numberOfmembers);
+				
 				projets.add(projet);
 			}
 		} catch (SQLException e) {
@@ -119,6 +124,48 @@ public class ProjetDao {
 		}
 		return projets;
 	}
+	
+	public int projectTasks (int projectId){
+		int taskNumber = 0;
+		String query = "SELECT COUNT(*) FROM tache WHERE projetId = ?";
+		try (Connection con = getConnection();
+			PreparedStatement stmt = con.prepareStatement(query)) {
+			stmt.setInt(1, projectId);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				taskNumber = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return taskNumber;
+	}
+	
+	
+	public int countProjectMembers(int projectId) {
+	    int memberCount = 0;
+	    String query = "SELECT COUNT(DISTINCT m.id) " +
+	                   "FROM membre m " +
+	                   "JOIN tache t ON t.membreId = m.id " + 
+	                   "WHERE t.projetId = ?";
+	    
+	    try (Connection con = getConnection();
+	         PreparedStatement stmt = con.prepareStatement(query)) {
+	        
+	        stmt.setInt(1, projectId);
+	        ResultSet rs = stmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            memberCount = rs.getInt(1);  
+	        }
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return memberCount;
+	}
+
 	
 	public void deleteProject (int id) {
 		String query = "DELETE FROM projet WHERE id = ?";
@@ -140,9 +187,11 @@ public class ProjetDao {
 				stmt.setString(1,searchName);
 				ResultSet rs = stmt.executeQuery();
 		            while (rs.next()) {
+		            	int numberOfTasks = projectTasks(rs.getInt("id"));
+						int numberOfmembers = countProjectMembers(rs.getInt("id"));
 		                Projet projet = new Projet(rs.getInt("id"),rs.getString("nom"),rs.getString("description"),
 		                		rs.getObject("dateDebut", LocalDate.class),rs.getObject("dateFin", LocalDate.class),
-		                		etatProjet.valueOf(rs.getString("etatProjet")));
+		                		etatProjet.valueOf(rs.getString("etatProjet")),numberOfTasks,numberOfmembers);
 		                projetsResult.add(projet);
 		            }
 		}catch (SQLException e) {

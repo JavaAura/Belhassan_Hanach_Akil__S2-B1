@@ -5,15 +5,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Projects</title>
-    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/index.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet" />
 </head>
 <body>
 
-<div class="container d-flex " style="height: 100vh ">
+<div class=" d-flex " style="height: 100vh ">
     <div class="sidebar">
-        <img src="../images/logotask.png" alt="logo Page">
+      <img src="${pageContext.request.contextPath}/images/logotask.png" alt="logo Page">
         <div class="icon">🚀</div>
         <div class="icon">✔️</div>
         <div class="icon">🛡️</div>
@@ -22,7 +22,7 @@
 
     <div class="main-content">
         <div class="search-bar gap-1">
-        <form action="<%=request.getContextPath() %>/projects/search" method="post">
+        <form class="d-flex gap-1" action="<%=request.getContextPath() %>/projects/search" method="post">
             <input type="search" name="projectName" value="${searchTerm}" class="form-control rounded" placeholder="Search a project" aria-label="Search" aria-describedby="search-addon" />
             <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-init>Search</button>
         </form>
@@ -107,6 +107,8 @@
                         <th>Status</th>
                         <th>Start date</th>
                         <th>End date</th>
+                        <th>N° Members</th>
+                        <th>N° Tasks</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -128,6 +130,12 @@
                         </td>
                         <td>${project.dateDebut}</td>
                         <td>${project.dateFin}</td>
+                        <td>
+                            <span class="badge bg-warning bg-opacity-10 text-success">${project.taskCount}</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-primary bg-opacity-10 text-success">${project.membreCount}</span>
+                        </td>
                         <td class="d-flex gap-1">
                         
                          <button type="button" class="btn btn-warning btn-sm btn-rounded" 

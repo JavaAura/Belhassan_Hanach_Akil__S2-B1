@@ -28,6 +28,7 @@ public class TaskDaoImp implements TaskDao {
 	            ps.setDate(3, java.sql.Date.valueOf(tache.getDateCreation()));
 	            ps.setDate(4, java.sql.Date.valueOf(tache.getDateEcheance()));
 	            ps.setString(5, tache.getPriorite().name());
+	           
 	            ps.setString(6, tache.getStatut().name());
 	            ps.setInt(7, tache.getMembreId());
 	            ps.setInt(8, tache.getProjetId());
@@ -72,6 +73,24 @@ public class TaskDaoImp implements TaskDao {
 	        return taches;
 		
 	}
+	 @Override
+	    public Task getTaskById(int id) throws SQLException {
+	        String sql = "SELECT * FROM tache WHERE id = ?";
+	        Task tache = null;
+
+	        try (Connection conn = getConnection();
+	             PreparedStatement ps = conn.prepareStatement(sql)) {
+	            
+	            ps.setInt(1, id);
+	            
+	            try (ResultSet rs = ps.executeQuery()) {
+	                if (rs.next()) {
+	                    tache = mapResultSetToTache(rs);
+	                }
+	            }
+	        }
+	        return tache;
+	    }
 	
 	 private Task mapResultSetToTache(ResultSet rs) throws SQLException {
 	        Task tache = new Task();

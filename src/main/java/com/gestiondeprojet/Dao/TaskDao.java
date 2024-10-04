@@ -11,5 +11,6 @@ public interface TaskDao {
 	  public void addTask(Task tache) throws SQLException ;
 	  public void updateTask(Task tache) throws SQLException;
 	  public List<Task> getAllTasks()throws SQLException;
+	  Task getTaskById(int id)throws SQLException;
 
 }

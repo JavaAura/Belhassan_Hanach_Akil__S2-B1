@@ -54,7 +54,7 @@ public class projectServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.doGet(request, response)
+		this.doGet(request, response);
 	}
 	
 	private void listProjects(HttpServletRequest request,HttpServletResponse response)

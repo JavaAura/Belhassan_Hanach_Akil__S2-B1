@@ -64,6 +64,9 @@ public class ProjectServlet extends HttpServlet {
                 case "/delete":
                     deleteProject(request, response);
                     break;
+                case "/search":
+                	saerchProject(request, response);
+                	break;
                 default:
                     listProjects(request, response);
                     break;
@@ -155,10 +158,21 @@ public class ProjectServlet extends HttpServlet {
             request.getSession().setAttribute("successMessage", "Project deleted successfully");
             
             response.sendRedirect(request.getContextPath() + "/projects");
+
     }
         
     private void saerchProject (HttpServletRequest request,HttpServletResponse response)
     throws ServletException,IOException{
+    	String searchTerm = request.getParameter("projectName");
+    	List<Projet> searchResults = null;
+    	if(searchTerm != null && !searchTerm.isEmpty()) {
+    		searchResults = projetService.searchProjects(searchTerm);
+    		request.setAttribute("projectName", searchTerm);
+    	}else {
+    		projetService.getAllProjects();
+    	}
+    	request.setAttribute("listProjects", searchResults);
+        request.getRequestDispatcher("/pages/projects.jsp").forward(request, response);
     	
     }
 }

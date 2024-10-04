@@ -2,6 +2,7 @@ package com.gestiondeprojet.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DBConnection {
 
@@ -24,8 +25,8 @@ public class DBConnection {
         }
     }
 
-    public static DBConnection getInstance() {
-        if (instance == null ) {
+    public static DBConnection getInstance() throws SQLException {
+        if (instance == null || instance.getConnection().isClosed()  ) {
             instance = new DBConnection();
         }
         instance = new DBConnection();
@@ -37,6 +38,10 @@ public class DBConnection {
     }
 
     public static void main(String[] args) {
-        DBConnection.getInstance().getConnection();
+    	try {
+            DBConnection.getInstance().getConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 }

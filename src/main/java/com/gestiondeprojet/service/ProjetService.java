@@ -19,6 +19,7 @@ public class ProjetService {
     }
 
     public boolean createProject(Projet projet) {
+        System.out.println("Insertion du projet dans la base de données: " + projet);
         try {
             projetDao.insertProject(projet);
             return true;
@@ -29,11 +30,15 @@ public class ProjetService {
     }
 
     public boolean updateProject(Projet projet) {
+        System.out.println("Service - Updating project with ID: " + projet.getId());
+        
         Optional<Projet> existingProject = projetDao.selectProjectById(projet.getId());
         if (existingProject.isPresent()) {
+            System.out.println("Project found, proceeding with update");
             projetDao.updateProject(projet);
             return true;
         } else {
+            System.out.println("Project not found with ID: " + projet.getId());
             return false;
         }
     }
@@ -46,5 +51,11 @@ public class ProjetService {
         } else {
             return false; 
         }
+    }
+    public List<Projet> searchProjects(String searchName) {
+        if (searchName == null || searchName.isEmpty()) {
+            return getAllProjects(); 
+        }
+        return projetDao.searchProject(searchName);
     }
 }

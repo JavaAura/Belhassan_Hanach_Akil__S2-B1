@@ -28,8 +28,6 @@
     <servlet-name>ProjectServlet</servlet-name>
     <url-pattern>/projects/*</url-pattern>
   </servlet-mapping>
-  
-  
-  
-  
+
+    
 </web-app>

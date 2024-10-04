@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.gestiondeprojet.Enteties.Projet;
 import com.gestiondeprojet.Enteties.enums.etatProjet;
 import com.gestiondeprojet.db.DBConnection;
-import com.mysql.cj.xdevapi.PreparableStatement;
 
 public class ProjetDao {
 	
@@ -55,6 +55,35 @@ public class ProjetDao {
 			e.printStackTrace();
 		}		
 	}
+	
+	public Optional<Projet> selectProjectById(int id) {
+	    String query = "SELECT * FROM projet WHERE id = ?";
+	    try (Connection con = getConnection();
+	         PreparedStatement stmt = con.prepareStatement(query)) {
+	        stmt.setInt(1, id);
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            String valeur = rs.getString("etatProjet");
+	            etatProjet etat = null;
+	            if (valeur != null) {
+	                etat = etatProjet.valueOf(valeur);
+	            }
+	            LocalDate dateDebut = rs.getDate("dateDebut").toLocalDate();
+	            LocalDate dateFin = rs.getDate("dateFin").toLocalDate();
+	            Projet projet = new Projet(rs.getString("nom"),
+	                                       rs.getString("description"),
+	                                       dateDebut,
+	                                       dateFin,
+	                                       etat);
+	            projet.setId(rs.getInt("id")); 
+	            return Optional.of(projet);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return Optional.empty(); 
+	}
+
 	
 	public List<Projet> selectProjects (){
 		List<Projet> projets = new ArrayList();

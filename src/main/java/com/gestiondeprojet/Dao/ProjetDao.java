@@ -12,11 +12,19 @@ import java.util.Optional;
 import com.gestiondeprojet.Enteties.Projet;
 import com.gestiondeprojet.Enteties.enums.etatProjet;
 import com.gestiondeprojet.db.DBConnection;
+import com.mysql.cj.xdevapi.Statement;
 
 public class ProjetDao {
 	
 	private Connection getConnection() {
-		return DBConnection.getInstance().getConnection();
+		try {
+			return DBConnection.getInstance().getConnection();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+
+		}
 	}
 	
 	public void insertProject(Projet projet) {
@@ -27,11 +35,11 @@ public class ProjetDao {
 			PreparedStatement stmt = con.prepareStatement(query)) {
 			stmt.setString(1, projet.getNom());
 			stmt.setString(2, projet.getDescription());
-			stmt.setObject(3, projet.getDateDebut());
-			stmt.setObject(4, projet.getDateFin());
-			stmt.setObject(5, projet.getEtatProjet(),java.sql.Types.OTHER);
+			stmt.setDate(3, java.sql.Date.valueOf(projet.getDateDebut()));
+			stmt.setDate(4, java.sql.Date.valueOf(projet.getDateFin()));
+			stmt.setString(5, projet.getEtatProjet().name());
 			stmt.executeUpdate();
-	
+		    con.commit(); 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -39,19 +47,23 @@ public class ProjetDao {
 	}
 	
 	public void updateProject (Projet projet) {
-		String query = "UPDATE projet SET nom = ?"
-				+ "description = ? ,dateDebut = ?"
-				+ "dateFin = ? ,etatProjet = ? WHERE id = ?";
+		String query = "UPDATE projet SET nom = ?,"
+				+ "description = ? ,"
+				+ "dateDebut = ?,"
+				+ "dateFin = ? ,"
+				+ "etatProjet = ?"
+				+ " WHERE id = ?";
 		try (Connection con = getConnection();
 			PreparedStatement stmt = con.prepareStatement(query)){
 			stmt.setString(1, projet.getNom());
 			stmt.setString(2, projet.getDescription());
 			stmt.setObject(3, projet.getDateDebut());
 			stmt.setObject(4, projet.getDateFin());
-			stmt.setObject(5, projet.getEtatProjet(),java.sql.Types.OTHER);
+			stmt.setString(5, projet.getEtatProjet().name().toString());
 			stmt.setInt(6, projet.getId());
-			int rowsUpdated = stmt.executeUpdate();
+			stmt.executeUpdate();
 		} catch (SQLException e) {
+	        System.err.println("Error updating project: ");
 			e.printStackTrace();
 		}		
 	}
@@ -70,12 +82,11 @@ public class ProjetDao {
 	            }
 	            LocalDate dateDebut = rs.getDate("dateDebut").toLocalDate();
 	            LocalDate dateFin = rs.getDate("dateFin").toLocalDate();
-	            Projet projet = new Projet(rs.getString("nom"),
+	            Projet projet = new Projet(rs.getInt("id"),rs.getString("nom"),
 	                                       rs.getString("description"),
 	                                       dateDebut,
 	                                       dateFin,
 	                                       etat);
-	            projet.setId(rs.getInt("id")); 
 	            return Optional.of(projet);
 	        }
 	    } catch (SQLException e) {
@@ -99,7 +110,7 @@ public class ProjetDao {
 				}
                 LocalDate dateDebut = rs.getDate("dateDebut").toLocalDate();
                 LocalDate dateFin = rs.getDate("dateFin").toLocalDate();
-				Projet projet = new Projet(rs.getString("nom"),
+				Projet projet = new Projet(rs.getInt("id"), rs.getString("nom"),
 						rs.getString("description"), dateDebut, dateFin,etat);
 				projets.add(projet);
 			}

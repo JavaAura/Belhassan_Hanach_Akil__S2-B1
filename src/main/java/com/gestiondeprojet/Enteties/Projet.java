@@ -28,6 +28,9 @@ private etatProjet etatProjet;
 	    this.dateFin = dateFin;
 	    this.etatProjet = etatProjet;
 	}
+	public Projet() {
+		
+	}
 
     public int getId() {
         return id;

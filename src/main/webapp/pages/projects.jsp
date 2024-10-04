@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<div class="container d-flex">
+<div class="container d-flex " style="height: 100vh ">
     <div class="sidebar">
         <img src="../images/logotask.png" alt="logo Page">
         <div class="icon">🚀</div>
@@ -32,13 +32,27 @@
                     <h2 class="text-bold">List of projects</h2>
                 </div>
                 <div>
+                <% if (session.getAttribute("successMessage") != null) { %>
+							    <div class="alert alert-success" role="alert">
+							        <%= session.getAttribute("successMessage") %>
+							    </div>
+							    <% session.removeAttribute("successMessage"); %>
+							<% } %>
+							
+							<% if (session.getAttribute("errorMessage") != null) { %>
+							    <div class="alert alert-danger" role="alert">
+							        <%= session.getAttribute("errorMessage") %>
+							    </div>
+							    <% session.removeAttribute("errorMessage"); %>
+							<% } %>
+                </div>
+                <div>
                     <button type="button" class="btn bg-primary bg-opacity-10 text-primary active bg-light-hover" data-bs-toggle="modal" data-bs-target="#exampleModal" aria-pressed="true">
                         + Add Project
                     </button>
                 </div>
             </div>
 
-            <!-- Modal for adding a new project -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -47,8 +61,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="projects" method="post">
-                                <input type="hidden" name="action" value="insert">
+						<form action="<%= request.getContextPath() %>/projects/insert" method="post">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Project name</label>
                                     <input type="text" class="form-control" name="name" id="name" aria-describedby="nameHelp">
@@ -84,8 +97,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Table to display projects -->
             <table class="table align-middle mt-5 mb-0 bg-white">
                 <thead class="bg-light">
                     <tr>
@@ -115,11 +126,72 @@
                         </td>
                         <td>${project.dateDebut}</td>
                         <td>${project.dateFin}</td>
-                        <td>
-                            <button type="button" class="btn btn-warning btn-sm btn-rounded">Edit</button>
-                            <button type="button" class="btn btn-danger btn-sm btn-rounded">Delete</button>
-                        </td>
+                        <td class="d-flex gap-1">
+                        
+                         <button type="button" class="btn btn-warning btn-sm btn-rounded" 
+						        data-bs-toggle="modal" 
+						        data-bs-target="#editModal${project.id}">
+						    Edit
+						</button>
+
+						<form action="<%= request.getContextPath() %>/projects/delete" method="post">
+						    <input type="hidden" name="id" value="${project.id}">
+						    <button type="submit" 
+						            onclick="return confirm('Are you sure you want to delete this project?');"
+						            class="btn btn-danger btn-sm btn-rounded">
+						        Delete
+						    </button>
+						</form>
+                     </td>
                     </tr>
+					 <div class="modal fade" id="editModal${project.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				    <div class="modal-dialog">
+				        <div class="modal-content">
+				            <div class="modal-header">
+				                <h5 class="modal-title">Edit project</h5>
+				                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				            </div>
+				            <div class="modal-body">
+							<form action="<%= request.getContextPath() %>/projects/update" method="post">
+							             <input type="hidden" name="id" value="${project.id}">
+				                    <div class="mb-3">
+				                        <label for="name${project.id}" class="form-label">Project name</label>
+				                        <input type="text" class="form-control" name="name" 
+				                               id="name${project.id}" value="${project.nom}">
+				                    </div>
+				                    <div class="mb-3">
+				                        <label for="description${project.id}" class="form-label">Description</label>
+				                        <textarea class="form-control" name="description" 
+				                                  id="description${project.id}">${project.description}</textarea>
+				                    </div>
+				                    <div class="mb-3">
+				                        <label for="dateDebut${project.id}" class="form-label">Start date</label>
+				                        <input type="date" name="dateDebut" class="form-control" 
+				                               id="dateDebut${project.id}" value="${project.dateDebut}">
+				                    </div>
+				                    <div class="mb-3">
+				                        <label for="dateFin${project.id}" class="form-label">End date</label>
+				                        <input type="date" name="dateFin" class="form-control" 
+				                               id="dateFin${project.id}" value="${project.dateFin}">
+				                    </div>
+				                    <div class="mb-3">
+				                        <label for="etatProjet${project.id}" class="form-label">Project status</label>
+				                        <select name="etatProjet" class="form-select" id="etatProjet${project.id}">
+				                            <option value="en_preparation" ${project.etatProjet == 'en_preparation' ? 'selected' : ''}>En préparation</option>
+				                            <option value="en_cours" ${project.etatProjet == 'en_cours' ? 'selected' : ''}>En cours</option>
+				                            <option value="en_pause" ${project.etatProjet == 'en_pause' ? 'selected' : ''}>En pause</option>
+				                            <option value="termine" ${project.etatProjet == 'termine' ? 'selected' : ''}>Terminé</option>
+				                            <option value="annule" ${project.etatProjet == 'annule' ? 'selected' : ''}>Annulé</option>
+				                        </select>
+				                    </div>
+				                    <div class="modal-footer">
+				                        <button type="submit" class="btn btn-primary">Save changes</button>
+				                    </div>
+				                </form>
+				            </div>
+				        </div>
+				    </div>
+				</div>
                 </c:forEach>
                 </tbody>
             </table>

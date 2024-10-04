@@ -18,13 +18,13 @@ import com.gestiondeprojet.Enteties.enums.etatProjet;
 /**
  * Servlet implementation class projectServlet
  */
-public class projectServlet extends HttpServlet {
+public class ProjectServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ProjetDao projetDao;
     /**
      * Default constructor. 
      */
-    public projectServlet() {
+    public ProjectServlet() {
        this.projetDao = new ProjetDao();
     }
 

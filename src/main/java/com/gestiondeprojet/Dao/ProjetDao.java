@@ -120,6 +120,26 @@ public class ProjetDao {
 			}
 	}
 	
+	public List<Projet> searchProject(String Projectname){
+		List<Projet> projetsResult = new ArrayList<Projet>();
+		String query = " SELECT * FROM projet WHERE nom LIKE ? ";
+		try(Connection con = getConnection();
+				PreparedStatement stmt = con.prepareStatement(query)) {
+				String searchName = "%"+Projectname+"%";
+				stmt.setString(1,searchName);
+				ResultSet rs = stmt.executeQuery();
+		            while (rs.next()) {
+		                Projet projet = new Projet(rs.getInt("id"),rs.getString("nom"),rs.getString("description"),
+		                		rs.getObject("dateDebut", LocalDate.class),rs.getObject("dateFin", LocalDate.class),
+		                		etatProjet.valueOf(rs.getString("etatProjet")));
+		                projetsResult.add(projet);
+		            }
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return projetsResult;
+	}
+	
 	
 	
 	

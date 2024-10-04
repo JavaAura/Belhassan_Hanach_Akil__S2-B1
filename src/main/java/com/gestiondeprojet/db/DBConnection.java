@@ -10,11 +10,11 @@ public class DBConnection {
 
     private DBConnection() {
         try {
-        	String host = System.getenv("DB_HOST");
-        	String port = System.getenv("DB_PORT");
-        	String db = System.getenv("DB_NAME");
-        	String user = System.getenv("DB_USER");
-        	String password = System.getenv("DB_PASSWORD");
+        	String host = "localhost";       
+        	String port = "3306";            
+        	String db = "gestiondeprojet";        // le nom de votre base de données
+        	String user = "root";            // votre nom d'utilisateur MySQL
+        	String password = "";      
         	Class.forName("com.mysql.cj.jdbc.Driver");
         	String url = "jdbc:mysql://" + host + ":" + port + "/" + db + "?useSSL=false&serverTimezone=UTC";
         	connection = DriverManager.getConnection(url, user, password);

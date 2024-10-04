@@ -1,36 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Task Manager</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/index.css" />
+   
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <script 
-src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js">
-</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+ 
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script>
 	  var app = angular.module('taskApp', []);
 	  app.controller('taskCtrl', function($scope)
 	 {
+		  
 	 	$scope.getTaskDetails = function(taskId)
 	 	{
 	 		console.log(taskId)
 		 	var employeeDetails = '';
+	 		console.log("intieam")
 		 	$.ajax
 		 	(
 			 	{
 				 	url : '/project/tasks/get',
-				 	type : 'POST',							 	
+				 	type : 'post',							 	
 				 	data : {"taskId" : taskId},	
 				 	async : false,
 				 	success : function(data, textStatus, jqXHR)
 				 	{
+				 		console.log("dat")
 				 		taskDetails = data;
-				 		console.log('employeeDetails==>' + JSON.parse(taskDetails));
+				 		
+				 		 
+				        
 					},
 					error : function(jqXHR, textStatus, error)
 					{
@@ -40,15 +47,38 @@ src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js">
 				}
 			);
 
-			$scope.employee = JSON.parse(taskDetails);
+			$scope.task = JSON.parse(taskDetails);
 			
-
-			return $scope.employee;
+			
+			return $scope.task;
 		}
+	 	
+	 	$scope.deleteTasks = function(taskId){
+	 		console.log(taskId)
+	 		$.ajax(
+				 	{
+					 	url : '/project/tasks/delete',
+					 	type : 'post',							 	
+					 	data : {"taskId" : taskId},	
+					 	async : false,
+					 	success : function(data, textStatus, jqXHR)
+					 	{
+					 		
+					 		
+					 		 $window.location.href = '/project/tasks/list';
+					 		 
+					        
+						},
+						error : function(jqXHR, textStatus, error)
+						{
+							
+							console.log('Error in deleting tasks from server==>' + error);
+						}							 	
+					})
+	 	}
 	 }); 
 	  </script>
-    
-
+	  
 </head>
  
 </head>
@@ -84,10 +114,18 @@ src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js">
                             <td>${task.titre}</td>
                             <td>${task.description}</td>
                             <td>${task.statut}</td>
-                            <td><a href="#editTaskModal" class="edit" data-toggle="modal">
-										<i class="material-icons" ng-click="getTaskDetails('${task.id}')" 
+                            <td><a  data-bs-toggle="modal" data-bs-target="#editTaskModal"  class="edit"  ng-click="getTaskDetails('${task.id}')" >
+										<i class="material-icons" 
 										   data-toggle="tooltip" title="Edit">&#xE254;</i>
-									</a> </td>
+									</a>
+									
+									<a  class="delete" data-toggle="modal" ng-click="deleteTasks('${task.id}')">
+										<i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+									</a>
+									
+									 </td>
+									
+									
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -212,7 +250,7 @@ src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js">
   </div>
 </div>
 
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<jsp:include page="./pages/updateTask.jsp"></jsp:include>
  
 </body>
 </html>

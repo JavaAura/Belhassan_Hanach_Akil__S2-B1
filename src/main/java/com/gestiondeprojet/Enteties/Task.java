@@ -27,6 +27,17 @@ public class Task {
         this.membreId=membreId;
         this.projetId=projetId;
     }
+    public Task(int id,String titre, String description, Priorite priorite, Statut statut, LocalDate dateEcheance,int membreId,int projetId) {
+    	this.id=id;
+        this.titre = titre;
+        this.description = description;
+        this.priorite = priorite;
+        this.statut = statut;
+        this.dateCreation = LocalDate.now(); 
+        this.dateEcheance = dateEcheance;
+        this.membreId=membreId;
+        this.projetId=projetId;
+    }
 
    
     public String getTitre() {

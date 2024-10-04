@@ -91,6 +91,26 @@ public class TaskDaoImp implements TaskDao {
 	        }
 	        return tache;
 	    }
+	 
+	 @Override
+	 public void deleteTaskById(int id) throws SQLException {
+	     String sql = "DELETE FROM tache WHERE id = ?";
+
+	     try (Connection conn = getConnection();
+	          PreparedStatement ps = conn.prepareStatement(sql)) {
+	         
+	        
+	         ps.setInt(1, id);
+	         
+	         
+	         int rowsAffected = ps.executeUpdate();
+	         if (rowsAffected > 0) {
+	             System.out.println("Task with ID " + id + " deleted successfully.");
+	         } else {
+	             System.out.println("No task found with ID " + id);
+	         }
+	     }
+	 }
 	
 	 private Task mapResultSetToTache(ResultSet rs) throws SQLException {
 	        Task tache = new Task();

@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Teams</title>
-    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/index.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet" />
 </head>
@@ -32,19 +32,19 @@
                     <h2 class="text-bold">List of Teams</h2>
                 </div>
                 <div>
-                <% if (session.getAttribute("successMessage") != null) { %>
-                    <div class="alert alert-success" role="alert">
-                        <%= session.getAttribute("successMessage") %>
-                    </div>
-                    <% session.removeAttribute("successMessage"); %>
-                <% } %>
+                    <% if (session.getAttribute("successMessage") != null) { %>
+                        <div class="alert alert-success" role="alert">
+                            <%= session.getAttribute("successMessage") %>
+                        </div>
+                        <% session.removeAttribute("successMessage"); %>
+                    <% } %>
 
-                <% if (session.getAttribute("errorMessage") != null) { %>
-                    <div class="alert alert-danger" role="alert">
-                        <%= session.getAttribute("errorMessage") %>
-                    </div>
-                    <% session.removeAttribute("errorMessage"); %>
-                <% } %>
+                    <% if (session.getAttribute("errorMessage") != null) { %>
+                        <div class="alert alert-danger" role="alert">
+                            <%= session.getAttribute("errorMessage") %>
+                        </div>
+                        <% session.removeAttribute("errorMessage"); %>
+                    <% } %>
                 </div>
                 <div>
                     <button type="button" class="btn bg-primary bg-opacity-10 text-primary active bg-light-hover" data-bs-toggle="modal" data-bs-target="#addModal">
@@ -82,6 +82,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
+                        <th>Member Count</th> <!-- New Column -->
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -90,6 +91,7 @@
                     <tr>
                         <td>${equipe.id}</td>
                         <td>${equipe.nom}</td>
+                        <td>${equipe.membres != null ? equipe.membres.size() : 0}</td> <!-- Display Member Count -->
                         <td class="d-flex gap-1">
                             <!-- Edit Button -->
                             <button type="button" class="btn btn-warning btn-sm btn-rounded" data-bs-toggle="modal" data-bs-target="#editModal${equipe.id}">
@@ -98,7 +100,7 @@
 
                             <!-- Delete Form -->
                             <a href="EquipeServlet?action=delete&id=${equipe.id}">
-                                <button type="submit" onclick="return confirm(${equipe.id});" class="btn btn-danger btn-sm btn-rounded">
+                                <button type="submit" onclick="return confirm('Are you sure you want to delete this team?');" class="btn btn-danger btn-sm btn-rounded">
                                     Delete
                                 </button>
                             </a>

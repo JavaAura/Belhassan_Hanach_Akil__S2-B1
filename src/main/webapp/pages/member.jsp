@@ -191,15 +191,15 @@
             </table>
 
             <!-- Pagination -->
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
-                    <c:forEach begin="1" end="${noOfPages}" var="page">
-                        <li class="page-item ${page == currentPage ? 'active' : ''}">
-                            <a class="page-link" href="MemberServlet?action=list&page=${page}">${page}</a>
-                        </li>
-                    </c:forEach>
-                </ul>
-            </nav>
+           <nav aria-label="Page navigation d-flex">
+			    <ul class="pagination justify-content-center mt-4">
+			        <c:forEach begin="1" end="${noOfPages}" var="page">
+			            <li class="page-item ${page == currentPage ? 'active' : ''}">
+			                <a class="page-link" href="MemberServlet?action=list&page=${page}">${page}</a>
+			            </li>
+			        </c:forEach>
+			    </ul>
+			</nav>
 
         </div>
     </div>

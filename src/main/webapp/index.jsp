@@ -216,14 +216,14 @@
            <nav aria-label="Page navigation example">
   <ul class="pagination">
     <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-      <a class="page-link" href="?page=${currentPage - 1}&pageSize=10" aria-label="Previous">
+      <a class="page-link" href="?id=${projectid}&page=${currentPage - 1}&pageSize=10" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
 
     <c:forEach var="i" begin="1" end="${totalPages}">
       <li class="page-item ${currentPage == i ? 'active' : ''}">
-        <a class="page-link" href="?page=${i}&pageSize=10">${i}</a>
+        <a class="page-link" href="?id=${projectid}&page=${i}&pageSize=10">${i}</a>
       </li>
     </c:forEach>
 

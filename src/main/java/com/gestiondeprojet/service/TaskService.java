@@ -31,11 +31,11 @@ public class TaskService {
         taskDao.deleteTaskById(id);
     }
 
-    public List<Task> getTasksPaginated(int page, int pageSize) throws SQLException {
-        return taskDao.getTasksPaginated(page, pageSize);
+    public List<Task> getTasksPaginated(int page, int pageSize,int projectid) throws SQLException {
+        return taskDao.getTasksPaginated(page, pageSize,projectid);
     }
 
-    public int getTotalTaskCount() throws SQLException {
-        return taskDao.getTotalTaskCount();
+    public int getTotalTaskCount(int projectid) throws SQLException {
+        return taskDao.getTotalTaskCount(projectid);
     }
 }

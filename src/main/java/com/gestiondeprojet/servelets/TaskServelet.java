@@ -145,6 +145,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     }
     private void getAllTasks(HttpServletRequest request, HttpServletResponse response) {
     	 try {
+    		 int projectid = Integer.parseInt(request.getParameter("id"));	 
+    		
     	        int page = 1; 
     	        int pageSize = 10; 
 
@@ -157,8 +159,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     	            pageSize = Integer.parseInt(request.getParameter("pageSize"));
     	        }
 
-    	        List<Task> tasks = taskService.getTasksPaginated(page, pageSize); 
-    	        int totalTasks = taskService.getTotalTaskCount();
+    	        List<Task> tasks = taskService.getTasksPaginated(page, pageSize ,projectid); 
+    	        int totalTasks = taskService.getTotalTaskCount(projectid);
     	        List<Equipe> equipes=null;
     	        if(totalTasks == 0) {
     	        	 equipes= equipeService.fetchAllEquipes();
@@ -179,6 +181,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     	      
     	        int totalPages = (int) Math.ceil((double) totalTasks / pageSize);
 System.out.println(tasks);
+request.setAttribute("projectid", projectid);
     	        request.setAttribute("tasks", tasks);
     	        request.setAttribute("currentPage", page);
     	        request.setAttribute("totalPages", totalPages);

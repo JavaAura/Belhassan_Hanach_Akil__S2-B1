@@ -187,11 +187,7 @@
 											onclick="return confirm('Are you sure you want to delete this project?');"
 											class="btn btn-danger btn-sm btn-rounded">Delete</button>
 									</form>
-									<form action="" method="post">
-										<input type="hidden" name="id" value="${project.id}">
-										<button type="button"
-											class="btn btn-success btn-sm btn-rounded">access</button>
-									</form>
+									<a href="/project/tasks/list?id=${project.id}" class="btn btn-success btn-sm btn-rounded">Access</a>
 
 								</td>
 							</tr>

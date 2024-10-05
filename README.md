@@ -37,17 +37,19 @@ Le projet est organisé selon une architecture MVC (Modèle-Vue-Contrôleur) :
 2. Exécutez le script SQL fourni dans `database/init.sql` pour créer les tables nécessaires.
 
 ### Lancement de l'application
-1. Clonez le dépôt :
+#### 1. Clonez le dépôt :
    ```bash
    git clone https://github.com/JavaAura/Belhassan_Hanach_Akil__S2-B1.git
+   ```
 
-2. Naviguez vers le répertoire du projet :
+#### 2. Naviguez vers le répertoire du projet :
 ```bash
 cd Belhassan_Hanach_Akil__S2-B1
-
-3. Compilez le projet :
+   ```
+#### 3. Compilez le projet :
 ```bash
 mvn clean install
+```
 Déployez le fichier WAR généré sur votre serveur Tomcat.
 Accédez à l'application via http://localhost:8080/Belhassan_Hanach_Akil__S2-B1
 
@@ -110,7 +112,7 @@ CREATE INDEX idx_email_membre ON membre(email);
 CREATE INDEX idx_statut_tache ON tache(titre);
 
 CREATE USER 'Akil'@'localhost' IDENTIFIED BY 'password';
-
+```
 
 ### Auteurs et contact
 Ce projet a été développé par une équipe d'étudiants :

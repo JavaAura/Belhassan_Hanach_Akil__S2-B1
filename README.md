@@ -51,7 +51,8 @@ cd Belhassan_Hanach_Akil__S2-B1
 mvn clean install
 ```
 Déployez le fichier WAR généré sur votre serveur Tomcat.
-Accédez à l'application via http://localhost:8080/Belhassan_Hanach_Akil__S2-B1
+##### Accédez à l'application via 
+http://localhost:8080/Belhassan_Hanach_Akil__S2-B1
 
 
 ### Guide d'utilisation rapide

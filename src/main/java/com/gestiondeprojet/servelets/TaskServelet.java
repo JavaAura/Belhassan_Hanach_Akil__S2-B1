@@ -18,14 +18,14 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 
 import com.gestiondeprojet.Dao.MemberDao;
-import com.gestiondeprojet.Dao.TaskDao;
-import com.gestiondeprojet.Dao.TaskDaoImp;
+
 import com.gestiondeprojet.Enteties.Equipe;
 import com.gestiondeprojet.Enteties.Member;
 import com.gestiondeprojet.Enteties.Task;
 import com.gestiondeprojet.Enteties.enums.Priorite;
 import com.gestiondeprojet.Enteties.enums.Statut;
 import com.gestiondeprojet.service.EquipeService;
+import com.gestiondeprojet.service.TaskService;
 
 
 
@@ -33,7 +33,8 @@ import com.gestiondeprojet.service.EquipeService;
 public class TaskServelet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private EquipeService equipeService = null;
-	TaskDao taskDao=null;
+	private TaskService taskService = null;
+	
 	MemberDao memberDao=null;
 	 /**
      * @see HttpServlet#HttpServlet()
@@ -47,7 +48,8 @@ public class TaskServelet extends HttpServlet {
 	    public void init(ServletConfig config) throws ServletException {
 		
 	    	super.init(config); 
-	    	taskDao=new TaskDaoImp(); 	
+	    	
+	    	taskService=new TaskService();
 	    	equipeService=new EquipeService();
 	    	memberDao=new MemberDao(); 
 	    }
@@ -100,8 +102,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     	    int membreId = Integer.parseInt(request.getParameter("membreId"));
     	    Task task =new Task( titre,  description,  priorite,  statut,  dateEcheance, membreId, 1);
     	    try {
-				taskDao.addTask(task);
-				List<Task> tasks = taskDao.getAllTasks();
+				taskService.addTask(task);
+				List<Task> tasks = taskService.getAllTasks();
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
 				request.setAttribute("tasks", tasks);
 				dispatcher.forward(request, response);
@@ -121,8 +123,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
   	    int membreId = Integer.parseInt(request.getParameter("membreId"));
   	    Task task=new Task( taskId,titre,  description,  priorite,  statut,  dateEcheance, membreId, 1);
   	    try {
-			taskDao.updateTask(task);
-			List<Task> tasks = taskDao.getAllTasks();
+  	    	taskService.updateTask(task);
+			List<Task> tasks = taskService.getAllTasks();
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
 			request.setAttribute("tasks", tasks);
 			dispatcher.forward(request, response);
@@ -134,7 +136,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     private void deleteTask(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException  {
     	int id = Integer.parseInt(request.getParameter("taskId"));	
     	try {
-			taskDao.deleteTaskById(id);
+    		taskService.deleteTaskById(id);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -155,8 +157,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     	            pageSize = Integer.parseInt(request.getParameter("pageSize"));
     	        }
 
-    	        List<Task> tasks = taskDao.getTasksPaginated(page, pageSize); 
-    	        int totalTasks = taskDao.getTotalTaskCount();
+    	        List<Task> tasks = taskService.getTasksPaginated(page, pageSize); 
+    	        int totalTasks = taskService.getTotalTaskCount();
     	        List<Equipe> equipes=null;
     	        if(totalTasks == 0) {
     	        	 equipes= equipeService.fetchAllEquipes();
@@ -194,7 +196,7 @@ System.out.println(tasks);
 		
 			
 		try 
-		{Task task = taskDao.getTaskById(id);
+		{Task task = taskService.getTaskById(id);
 		System.out.println("getEmployee, result is ==> " + task);	
 			ObjectWriter mapper = new ObjectMapper().writer().withDefaultPrettyPrinter();
 			String employeeStr = mapper.writeValueAsString(task);

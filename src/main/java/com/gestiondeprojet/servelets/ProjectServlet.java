@@ -80,9 +80,35 @@ public class ProjectServlet extends HttpServlet {
 
     private void listProjects(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
-        List<Projet> projectsList = projetService.getAllProjects();
-        request.setAttribute("listProjects", projectsList);
-        System.out.println(projectsList);
+    	
+        int recordsPerPage = 4;  
+        int currentPage = 1;
+        
+        String pageStr = request.getParameter("page");
+        if (pageStr != null && !pageStr.isEmpty()) {
+            try {
+                currentPage = Integer.parseInt(pageStr);
+            } catch (NumberFormatException e) {
+                currentPage = 1;  
+            }
+        }
+
+        List<Projet> allProjects = projetService.getAllProjects();
+        
+        int totalRecords = allProjects.size();
+        int totalPages = (int) Math.ceil(totalRecords * 1.0 / recordsPerPage);
+        
+        if (currentPage < 1) {
+            currentPage = 1;
+        } else if (currentPage > totalPages) {
+            currentPage = totalPages;
+        }
+
+        request.setAttribute("listProjects", allProjects);  
+        request.setAttribute("currentPage", currentPage);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("recordsPerPage", recordsPerPage);
+        
         RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/projects.jsp");
         dispatcher.forward(request, response);
     }
@@ -162,18 +188,47 @@ public class ProjectServlet extends HttpServlet {
 
     }
         
-    private void saerchProject (HttpServletRequest request,HttpServletResponse response)
-    throws ServletException,IOException{
-    	String searchTerm = request.getParameter("projectName");
-    	List<Projet> searchResults = null;
-    	if(searchTerm != null && !searchTerm.isEmpty()) {
-    		searchResults = projetService.searchProjects(searchTerm);
-    		request.setAttribute("projectName", searchTerm);
-    	}else {
-    		projetService.getAllProjects();
-    	}
-    	request.setAttribute("listProjects", searchResults);
+    private void saerchProject(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+    	int recordsPerPage = 4;
+        int currentPage = 1;
+
+        String pageStr = request.getParameter("page");
+        if (pageStr != null && !pageStr.trim().isEmpty()) {
+            try {
+                currentPage = Integer.parseInt(pageStr);
+            } catch (NumberFormatException e) {
+                currentPage = 1;
+            }
+        }
+
+        String searchTerm = request.getParameter("projectName");
+        List<Projet> searchResults;
+        
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            searchResults = projetService.searchProjects(searchTerm);
+        } else {
+            searchResults = projetService.getAllProjects();
+        }
+
+        int totalRecords = searchResults.size();
+        int totalPages = (int) Math.ceil(totalRecords * 1.0 / recordsPerPage);
+        
+        if (currentPage < 1) {
+            currentPage = 1;
+        } else if (currentPage > totalPages) {
+            currentPage = totalPages;
+        }
+
+        request.setAttribute("listProjects", searchResults);
+        request.setAttribute("currentPage", currentPage);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("recordsPerPage", recordsPerPage);
+        request.setAttribute("projectName", searchTerm);
+
         request.getRequestDispatcher("/pages/projects.jsp").forward(request, response);
-    	
     }
+    
+    
 }

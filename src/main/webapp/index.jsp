@@ -8,10 +8,10 @@
     <title>Task Manager</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/index.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <script 
-src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js">
-</script>
+		<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+		    <script 
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js">
+		</script>
     <script>
 	  var app = angular.module('taskApp', []);
 	  app.controller('taskCtrl', function($scope)

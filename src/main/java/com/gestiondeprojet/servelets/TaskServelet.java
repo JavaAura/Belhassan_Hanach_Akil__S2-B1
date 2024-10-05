@@ -54,7 +54,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String action = request.getRequestURI().substring(request.getContextPath().length() + request.getServletPath().length());
-    
+    System.out.println(action);
 
     switch (action) {
         case "/add":
@@ -98,13 +98,42 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 				e.printStackTrace();
 			}
     }
-    private void updateTask(HttpServletRequest request, HttpServletResponse response) {}
-    private void deleteTask(HttpServletRequest request, HttpServletResponse response) {}
+    private void updateTask(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException  {
+    	int taskId = Integer.parseInt(request.getParameter("taskId"));
+    	
+    	  String titre = request.getParameter("titre");
+  	    String description = request.getParameter("description");
+  	    Priorite priorite = Priorite.valueOf(request.getParameter("priorite")) ;
+  	    Statut statut =   Statut.valueOf(request.getParameter("statut")) ;
+  	    LocalDate dateEcheance = LocalDate.parse(request.getParameter("dateEcheance"));
+  	    int membreId = Integer.parseInt(request.getParameter("membreId"));
+  	    Task task=new Task( taskId,titre,  description,  priorite,  statut,  dateEcheance, membreId, 1);
+  	    try {
+			taskDao.updateTask(task);
+			List<Task> tasks = taskDao.getAllTasks();
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+			request.setAttribute("tasks", tasks);
+			dispatcher.forward(request, response);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    private void deleteTask(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException  {
+    	int id = Integer.parseInt(request.getParameter("taskId"));	
+    	try {
+			taskDao.deleteTaskById(id);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     private void getAllTasks(HttpServletRequest request, HttpServletResponse response) {
       	try 
 		{
       		List<Task> tasks = taskDao.getAllTasks();
-      		tasks.stream().forEach(System.out::println);
+      		
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
 			request.setAttribute("tasks", tasks);
 			dispatcher.forward(request, response);

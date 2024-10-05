@@ -1,7 +1,7 @@
 package com.gestiondeprojet.Enteties;
 
 public class Equipe {
-	
+
     private int id;
     private String nom;
 
@@ -27,4 +27,5 @@ public class Equipe {
 	}
     
     
+
 }

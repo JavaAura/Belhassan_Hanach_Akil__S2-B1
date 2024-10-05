@@ -11,14 +11,16 @@ public class DBConnection {
 
     private DBConnection() {
         try {
-            String host = "localhost";
-            String port = "3306";
-            String db = "GestionDeProjet";
-            String user = "myroot";
-            String password = "123456789";
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/GestionDeProjet?useSSL=false&serverTimezone=UTC";
-            connection = DriverManager.getConnection(url, user, password);
+
+        	String host = "localhost";       
+        	String port = "3306";            
+        	String db = "gestiondeprojet";        // le nom de votre base de données
+        	String user = "root";            // votre nom d'utilisateur MySQL
+        	String password = "";      
+        	Class.forName("com.mysql.cj.jdbc.Driver");
+        	String url = "jdbc:mysql://" + host + ":" + port + "/" + db + "?useSSL=false&serverTimezone=UTC";
+        	connection = DriverManager.getConnection(url, user, password);
+            System.out.println("Connexion OK");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -32,16 +34,11 @@ public class DBConnection {
         return instance;
     }
 
-    public Connection getConnection() {
+      public Connection getConnection() {
         return connection;
-    }
+     }
 
-    public static void main(String[] args) {
-    	
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    
+    
 }
+

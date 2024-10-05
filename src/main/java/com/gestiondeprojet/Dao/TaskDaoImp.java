@@ -14,7 +14,13 @@ import com.gestiondeprojet.db.DBConnection;
 
 public class TaskDaoImp implements TaskDao {
 	private Connection getConnection() {
-		return DBConnection.getInstance().getConnection();
+		try {
+			return DBConnection.getInstance().getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	  @Override
@@ -28,6 +34,7 @@ public class TaskDaoImp implements TaskDao {
 	            ps.setDate(3, java.sql.Date.valueOf(tache.getDateCreation()));
 	            ps.setDate(4, java.sql.Date.valueOf(tache.getDateEcheance()));
 	            ps.setString(5, tache.getPriorite().name());
+	           
 	            ps.setString(6, tache.getStatut().name());
 	            ps.setInt(7, tache.getMembreId());
 	            ps.setInt(8, tache.getProjetId());
@@ -72,6 +79,44 @@ public class TaskDaoImp implements TaskDao {
 	        return taches;
 		
 	}
+	 @Override
+	    public Task getTaskById(int id) throws SQLException {
+	        String sql = "SELECT * FROM tache WHERE id = ?";
+	        Task tache = null;
+
+	        try (Connection conn = getConnection();
+	             PreparedStatement ps = conn.prepareStatement(sql)) {
+	            
+	            ps.setInt(1, id);
+	            
+	            try (ResultSet rs = ps.executeQuery()) {
+	                if (rs.next()) {
+	                    tache = mapResultSetToTache(rs);
+	                }
+	            }
+	        }
+	        return tache;
+	    }
+	 
+	 @Override
+	 public void deleteTaskById(int id) throws SQLException {
+	     String sql = "DELETE FROM tache WHERE id = ?";
+
+	     try (Connection conn = getConnection();
+	          PreparedStatement ps = conn.prepareStatement(sql)) {
+	         
+	        
+	         ps.setInt(1, id);
+	         
+	         
+	         int rowsAffected = ps.executeUpdate();
+	         if (rowsAffected > 0) {
+	             System.out.println("Task with ID " + id + " deleted successfully.");
+	         } else {
+	             System.out.println("No task found with ID " + id);
+	         }
+	     }
+	 }
 	
 	 private Task mapResultSetToTache(ResultSet rs) throws SQLException {
 	        Task tache = new Task();
@@ -86,7 +131,38 @@ public class TaskDaoImp implements TaskDao {
 	        
 	        return tache;
 	    }
-	  
-	  
+	 @Override
+	 public List<Task> getTasksPaginated(int page, int pageSize) throws SQLException {
+		    int offset = (page - 1) * pageSize;
+		    String sql = "SELECT * FROM tache LIMIT ? OFFSET ?";
+		    
+		    try (Connection conn = getConnection();
+		             PreparedStatement ps = conn.prepareStatement(sql)) {
+		        ps.setInt(1, pageSize);
+		        ps.setInt(2, offset);
+
+		        try (ResultSet rs = ps.executeQuery()) {
+		            List<Task> tasks = new ArrayList<>();
+		            while (rs.next()) {
+		            	Task tache = mapResultSetToTache(rs);
+		            	tasks.add(tache);
+		            }
+		            return tasks;
+		        }
+		    }
+		}
+	 @Override
+		public int getTotalTaskCount() throws SQLException {
+		    String sql = "SELECT COUNT(*) FROM tache";
+		    try (Connection conn = getConnection();
+		             PreparedStatement ps = conn.prepareStatement(sql);
+		         ResultSet rs = ps.executeQuery()) {
+		        if (rs.next()) {
+		            return rs.getInt(1);
+		        }
+		    }
+		    return 0;
+		}
+
 
 }

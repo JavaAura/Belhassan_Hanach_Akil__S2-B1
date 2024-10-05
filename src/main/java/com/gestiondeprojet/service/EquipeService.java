@@ -1,5 +1,6 @@
 package com.gestiondeprojet.service;
 
+
 import java.util.List;
 
 import com.gestiondeprojet.Dao.EquipeDao;
@@ -33,5 +34,8 @@ public class EquipeService {
     public Equipe fetchEquipeById(int id) {
         return equipeDao.getEquipeById(id);
     }
-
+    public Equipe fetchEquipeByMembreId(int id) {
+        return equipeDao.getEquipeByMembreId(id);
+    }
+   
 }

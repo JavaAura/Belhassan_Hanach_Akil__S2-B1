@@ -1,5 +1,6 @@
 package com.gestiondeprojet.Dao;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -88,4 +89,27 @@ public class EquipeDao {
         
         }
     
+    public Equipe getEquipeByMembreId(int membreId) {
+        Equipe equipe = null;
+        try (Connection conn = DBConnection.getInstance().getConnection()) {
+            
+            String membreQuery = "SELECT equipeId FROM membre WHERE id = ?";
+            PreparedStatement membreStmt = conn.prepareStatement(membreQuery);
+            membreStmt.setInt(1, membreId);
+            ResultSet membreRs = membreStmt.executeQuery();
+
+            if (membreRs.next()) {
+                int equipeId = membreRs.getInt("equipeId");
+
+               
+                equipe=  getEquipeById(equipeId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return equipe;
+    }
+
+    
 }
+

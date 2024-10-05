@@ -167,4 +167,25 @@ public class MemberDao {
         }
         return total;
     }
+    
+    public List<Member> getMembreByEquipe(int equipeId) {
+        List<Member> membres = new ArrayList<>();
+        try (Connection conn = DBConnection.getInstance().getConnection()) {
+            String query = "SELECT * FROM membre WHERE equipeId = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, equipeId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Member membre = new Member();
+                membre.setId(rs.getInt("id"));
+                membre.setNom(rs.getString("nom"));
+                membre.setRole(Role.valueOf(rs.getString("role")));
+                membres.add(membre);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return membres;
+    }
+
 }

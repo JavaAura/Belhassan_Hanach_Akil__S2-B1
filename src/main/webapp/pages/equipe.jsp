@@ -80,25 +80,25 @@
             <table class="table align-middle mt-5 mb-0 bg-white">
                 <thead class="bg-light">
                     <tr>
-                        <th>ID</th>
+                        
                         <th>Name</th>
-                        <th>Member Count</th> <!-- New Column -->
+                        <th>Member Count</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="equipe" items="${equipes}">
                     <tr>
-                        <td>${equipe.id}</td>
+                        
                         <td>${equipe.nom}</td>
-                        <td>${equipe.membres != null ? equipe.membres.size() : 0}</td> <!-- Display Member Count -->
+                        <td>${equipe.membres != null ? equipe.membres.size() : 0}</td>
                         <td class="d-flex gap-1">
-                            <!-- Edit Button -->
+                            <button type="button" class="btn btn-info btn-sm btn-rounded" data-bs-toggle="collapse" data-bs-target="#members${equipe.id}" aria-expanded="false" aria-controls="members${equipe.id}">
+                                Show Members
+                            </button>
                             <button type="button" class="btn btn-warning btn-sm btn-rounded" data-bs-toggle="modal" data-bs-target="#editModal${equipe.id}">
                                 Edit
                             </button>
-
-                            <!-- Delete Form -->
                             <a href="EquipeServlet?action=delete&id=${equipe.id}">
                                 <button type="submit" onclick="return confirm('Are you sure you want to delete this team?');" class="btn btn-danger btn-sm btn-rounded">
                                     Delete
@@ -106,6 +106,24 @@
                             </a>
                         </td>
                     </tr>
+
+                    <!-- Members List (Collapsible) -->
+                    <tr class="collapse" id="members${equipe.id}">
+					    <td colspan="4">
+					        <ul class="list-group">
+					            <c:choose>
+					                <c:when test="${not empty equipe.membres}">
+					                    <c:forEach var="member" items="${equipe.membres}">
+					                        <li class="list-group-item">${member.nom}</li> <!-- Adjust this based on your Member object -->
+					                    </c:forEach>
+					                </c:when>
+					                <c:otherwise>
+					                    <li class="list-group-item">No members in this team.</li>
+					                </c:otherwise>
+					            </c:choose>
+					        </ul>
+					    </td>
+					</tr>
 
                     <!-- Edit Modal -->
                     <div class="modal fade" id="editModal${equipe.id}" tabindex="-1" aria-labelledby="editModalLabel${equipe.id}" aria-hidden="true">

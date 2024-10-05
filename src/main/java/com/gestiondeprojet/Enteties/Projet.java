@@ -11,6 +11,7 @@ private String description;
 private LocalDate dateDebut;
 private LocalDate dateFin;
 private etatProjet etatProjet;
+
 private int taskCount;
 private int membreCount;
 	
@@ -113,4 +114,5 @@ private int membreCount;
 				+ membreCount + "]";
 	}
 	
+
 }

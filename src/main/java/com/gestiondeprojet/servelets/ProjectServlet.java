@@ -67,6 +67,7 @@ public class ProjectServlet extends HttpServlet {
                 case "/search":
                 	saerchProject(request, response);
                 	break;
+             
                 default:
                     listProjects(request, response);
                     break;
@@ -77,6 +78,7 @@ public class ProjectServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/projects");
         }
     }
+   
 
     private void listProjects(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {

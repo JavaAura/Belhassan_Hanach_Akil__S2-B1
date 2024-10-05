@@ -131,7 +131,38 @@ public class TaskDaoImp implements TaskDao {
 	        
 	        return tache;
 	    }
-	  
-	  
+	 @Override
+	 public List<Task> getTasksPaginated(int page, int pageSize) throws SQLException {
+		    int offset = (page - 1) * pageSize;
+		    String sql = "SELECT * FROM tache LIMIT ? OFFSET ?";
+		    
+		    try (Connection conn = getConnection();
+		             PreparedStatement ps = conn.prepareStatement(sql)) {
+		        ps.setInt(1, pageSize);
+		        ps.setInt(2, offset);
+
+		        try (ResultSet rs = ps.executeQuery()) {
+		            List<Task> tasks = new ArrayList<>();
+		            while (rs.next()) {
+		            	Task tache = mapResultSetToTache(rs);
+		            	tasks.add(tache);
+		            }
+		            return tasks;
+		        }
+		    }
+		}
+	 @Override
+		public int getTotalTaskCount() throws SQLException {
+		    String sql = "SELECT COUNT(*) FROM tache";
+		    try (Connection conn = getConnection();
+		             PreparedStatement ps = conn.prepareStatement(sql);
+		         ResultSet rs = ps.executeQuery()) {
+		        if (rs.next()) {
+		            return rs.getInt(1);
+		        }
+		    }
+		    return 0;
+		}
+
 
 }

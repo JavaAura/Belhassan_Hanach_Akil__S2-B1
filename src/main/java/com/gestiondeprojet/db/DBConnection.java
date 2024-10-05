@@ -11,6 +11,7 @@ public class DBConnection {
 
     private DBConnection() {
         try {
+
         	String host = "localhost";       
         	String port = "3306";            
         	String db = "gestiondeprojet";        // le nom de votre base de données
@@ -33,15 +34,11 @@ public class DBConnection {
         return instance;
     }
 
-    public Connection getConnection() {
+      public Connection getConnection() {
         return connection;
-    }
+     }
 
-    public static void main(String[] args) {
-    	try {
-            DBConnection.getInstance().getConnection();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-    }
+    
+    
 }
+

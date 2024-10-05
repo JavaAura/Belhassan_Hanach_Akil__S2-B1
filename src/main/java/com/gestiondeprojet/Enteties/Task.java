@@ -15,6 +15,7 @@ public class Task {
     private LocalDate dateEcheance;
     private int membreId;
     private int projetId;
+
     public Task() {}
     
     public Task(String titre, String description, Priorite priorite, Statut statut, LocalDate dateEcheance,int membreId,int projetId) {
@@ -27,6 +28,7 @@ public class Task {
         this.membreId=membreId;
         this.projetId=projetId;
     }
+
     public Task(int id,String titre, String description, Priorite priorite, Statut statut, LocalDate dateEcheance,int membreId,int projetId) {
     	this.id=id;
         this.titre = titre;
@@ -110,6 +112,7 @@ public class Task {
 		this.membreId = membreId;
 	}
 
+
 	@Override
 	public String toString() {
 		return "Task [id=" + id + ", titre=" + titre + ", description=" + description + ", priorite=" + priorite
@@ -117,4 +120,5 @@ public class Task {
 				+ ", membreId=" + membreId + ", projetId=" + projetId + "]";
 	}
 	}
+
 

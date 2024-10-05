@@ -13,5 +13,6 @@ public interface TaskDao {
 	  public List<Task> getAllTasks()throws SQLException;
 	  Task getTaskById(int id)throws SQLException;
 	  public void deleteTaskById(int id) throws SQLException;
-
+	  public List<Task> getTasksPaginated(int page, int pageSize) throws SQLException;
+	  public int getTotalTaskCount() throws SQLException;
 }

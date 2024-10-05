@@ -127,7 +127,12 @@ public class ProjectServlet extends HttpServlet {
                 etatProjet etat_projet = etatProjet.valueOf(etatProjetParam);
 
                 Projet projet = new Projet(nom, description, dateDebut, dateFin, etat_projet);
-                projetService.createProject(projet);
+                boolean inserted = projetService.createProject(projet);
+                if (inserted) {
+                    request.getSession().setAttribute("successMessage", "Projet created successfully!");
+                } else {
+                    request.getSession().setAttribute("errorMessage", "Projcet not created !");
+                }
 
                 request.setAttribute("successMessage", "Le projet a été ajouté avec succès!");
                 response.sendRedirect(request.getContextPath() + "/projects");
@@ -160,9 +165,9 @@ public class ProjectServlet extends HttpServlet {
             boolean updated = projetService.updateProject(projet);
             
             if (updated) {
-                request.getSession().setAttribute("successMessage", "Projet mis à jour avec succès!");
+                request.getSession().setAttribute("successMessage", "Projet updated successfully!");
             } else {
-                request.getSession().setAttribute("errorMessage", "Projet non trouvé!");
+                request.getSession().setAttribute("errorMessage", "Project not updated!");
             }
             
         } catch (Exception e) {

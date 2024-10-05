@@ -92,32 +92,36 @@
 									aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<form action="<%=request.getContextPath()%>/projects/insert"
-									method="post">
+								<form id="projectForm"
+									action="<%=request.getContextPath()%>/projects/insert"
+									method="post" onsubmit="return validateForm('projectForm')">
 									<div class="mb-3">
 										<label for="name" class="form-label">Project name</label> <input
 											type="text" class="form-control" name="name" id="name"
-											aria-describedby="nameHelp">
+											placeholder="Project Name" required pattern="[A-Za-z0-9\s]+"
+											title="Only letters, numbers and spaces are allowed">
 									</div>
 									<div class="mb-3">
 										<label for="description" class="form-label">Description</label>
 										<textarea class="form-control" name="description"
-											id="description"></textarea>
+											id="description" required minlength="10" maxlength="500"
+											placeholder="Project description" cols="" rows=""></textarea>
 									</div>
 									<div class="mb-3">
 										<label for="dateDebut" class="form-label">Start date</label> <input
 											type="date" name="dateDebut" class="form-control"
-											id="dateDebut">
+											id="dateDebut" required>
 									</div>
 									<div class="mb-3">
 										<label for="dateFin" class="form-label">End date</label> <input
-											type="date" name="dateFin" class="form-control" id="dateFin">
+											type="date" name="dateFin" class="form-control" id="dateFin"
+											required>
 									</div>
 									<div class="mb-3">
 										<label for="etatProjet" class="form-label">Project
-											status</label> <select name="etatProjet" class="form-select"
-											aria-label="Default select example">
-											<option selected>Choose one of the following...</option>
+											status</label> <select required name="etatProjet" class="form-select"
+											id="etatProjet">
+											<option value="">Choose one of the following...</option>
 											<option value="en_preparation">En préparation</option>
 											<option value="en_cours">En cours</option>
 											<option value="en_pause">En pause</option>
@@ -208,29 +212,31 @@
 												<div class="mb-3">
 													<label for="name${project.id}" class="form-label">Project
 														name</label> <input type="text" class="form-control" name="name"
+														required pattern="[A-Za-z0-9\s]+"
+														title="Only letters, numbers and spaces are allowed"
 														id="name${project.id}" value="${project.nom}">
 												</div>
 												<div class="mb-3">
 													<label for="description${project.id}" class="form-label">Description</label>
-													<textarea class="form-control" name="description"
-														id="description${project.id}">${project.description}</textarea>
+													<textarea class="form-control" name="description" required minlength="10" maxlength="500"
+														id="description${project.id}" cols="" rows="">${project.description}</textarea>
 												</div>
 												<div class="mb-3">
 													<label for="dateDebut${project.id}" class="form-label">Start
-														date</label> <input type="date" name="dateDebut"
+														date</label> <input type="date" name="dateDebut" 
 														class="form-control" id="dateDebut${project.id}"
 														value="${project.dateDebut}">
 												</div>
 												<div class="mb-3">
 													<label for="dateFin${project.id}" class="form-label">End
-														date</label> <input type="date" name="dateFin"
+														date</label> <input type="date" name="dateFin" required
 														class="form-control" id="dateFin${project.id}"
 														value="${project.dateFin}">
 												</div>
 												<div class="mb-3">
 													<label for="etatProjet${project.id}" class="form-label">Project
 														status</label> <select name="etatProjet" class="form-select"
-														id="etatProjet${project.id}">
+														required id="etatProjet${project.id}">
 														<option value="en_preparation"
 															${project.etatProjet == 'en_preparation' ? 'selected' : ''}>En
 															préparation</option>
@@ -259,28 +265,29 @@
 					</tbody>
 				</table>
 				<div class="container mt-4">
-				    <!-- Pagination -->
-				    <nav aria-label="Page navigation">
-				        <ul class="pagination justify-content-center">
-				            <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-				                <a class="page-link" href="?page=${currentPage - 1}" aria-label="Previous">
-				                    <span aria-hidden="true">&laquo;</span>
-				                </a>
-				            </li>
-				            
-				            <c:forEach begin="1" end="${totalPages}" var="i">
-				                <li class="page-item ${currentPage == i ? 'active' : ''}">
-				                    <a class="page-link" href="?page=${i}">${i}</a>
-				                </li>
-				            </c:forEach>
-				
-				            <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-				                <a class="page-link" href="?page=${currentPage + 1}" aria-label="Next">
-				                    <span aria-hidden="true">&raquo;</span>
-				                </a>
-				            </li>
-				        </ul>
-				    </nav>
+					<!-- Pagination -->
+					<nav aria-label="Page navigation">
+						<ul class="pagination justify-content-center">
+							<li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+								<a class="page-link" href="?page=${currentPage - 1}"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+							</a>
+							</li>
+
+							<c:forEach begin="1" end="${totalPages}" var="i">
+								<li class="page-item ${currentPage == i ? 'active' : ''}">
+									<a class="page-link" href="?page=${i}">${i}</a>
+								</li>
+							</c:forEach>
+
+							<li
+								class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+								<a class="page-link" href="?page=${currentPage + 1}"
+								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+							</a>
+							</li>
+						</ul>
+					</nav>
 				</div>
 			</div>
 		</div>
@@ -288,9 +295,60 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-		crossorigin="anonymous"></script>
+		crossorigin="anonymous" type="text/javascript"></script>
 	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+		src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
+		type="text/javascript"></script>
 
+	<script>
+    function validateForm() {
+    	
+        const name = document.getElementById('name');
+        const description = document.getElementById('description');
+        const dateDebut = document.getElementById('dateDebut');
+        const dateFin = document.getElementById('dateFin');
+        const etatProjet = document.getElementById('etatProjet');
+
+        let isValid = true;
+
+        const namePattern = /^[A-Za-z0-9\s]+$/;
+        if (!name.value.match(namePattern)) {
+            alert("Project name can only contain letters, numbers and spaces.");
+            isValid = false;
+        }
+
+        if (description.value.length < 10 || description.value.length > 500) {
+            alert("Description must be between 10 and 500 characters.");
+            isValid = false;
+        }
+
+        const today = new Date().toISOString().split('T')[0]; 
+        if (dateDebut.value < today) {
+            alert("Start date cannot be before today.");
+            isValid = false;
+        }
+
+        if (dateFin.value < dateDebut.value) {
+            alert("End date must be after start date.");
+            isValid = false;
+        }
+
+        if (etatProjet.value === "") {
+            alert("Please select a project status.");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    window.addEventListener('load', function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('dateDebut').min = today;
+
+        document.getElementById('dateDebut').addEventListener('change', function() {
+            document.getElementById('dateFin').min = this.value;
+        });
+    });
+</script>
 </body>
 </html>

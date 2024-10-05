@@ -61,6 +61,33 @@ http://localhost:8080/Belhassan_Hanach_Akil__S2-B1
 - Gestion des tâches : Ajoutez et modifiez des tâches pour chaque projet.
 - Gestion des équipes : Créez, modifiez, supprimez et visualisez les équipes et les membres de l'équipe.
 
+## Capture d'écrans 
+#### PAGE PROJET
+###### Liste des projets
+<img width="959" alt="addPage" src="https://github.com/user-attachments/assets/afbb8b6e-134d-4d85-ad7d-a7bf21779fcb">
+
+###### Ajouter projet
+![aaa](https://github.com/user-attachments/assets/92add13c-2cf7-4427-8c5f-b0d04c04b0c1)
+
+#### PAGE EQUIPE
+###### Liste des equipes
+![Screenshot from 2024-10-06 00-27-13](https://github.com/user-attachments/assets/b920230b-27e5-4ee5-af94-df5ee7242240)
+
+###### Ajouter equipe
+![Screenshot from 2024-10-06 00-55-34](https://github.com/user-attachments/assets/d30b6cdd-d88d-4173-82a3-3b96f64c8071)
+
+
+###### Listes des membres dans l'equipe 
+![Screenshot from 2024-10-06 00-27-33](https://github.com/user-attachments/assets/1c9f1881-27de-4737-800b-9001a3b84303)
+
+
+#### PAGE MEMBRE
+###### Liste des membres
+![Screenshot from 2024-10-06 00-26-41](https://github.com/user-attachments/assets/98088d89-d7d2-42c0-9a06-5441475f0462)
+###### Ajouter membre
+![Screenshot from 2024-10-06 00-27-00](https://github.com/user-attachments/assets/bb9bfc16-b0b3-4fa2-aaf9-eb922b3efe44)
+
+
 ## Configuration de la base de données
 
 Pour configurer la base de données pour l'application Gestion-Projet-Collaboratif, exécutez le script SQL suivant :
@@ -118,6 +145,6 @@ CREATE USER 'Akil'@'localhost' IDENTIFIED BY 'password';
 ### Auteurs et contact
 Ce projet a été développé par une équipe d'étudiants :
 
-- [Anouar](https://github.com/BelAnouar))
-- [Salah Eddine](https://github.com/AkilSalah))
+- [Anouar](https://github.com/BelAnouar)
+- [Salah Eddine](https://github.com/AkilSalah)
 - [Yassine](https://github.com/Yassinean)

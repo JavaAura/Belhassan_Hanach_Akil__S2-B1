@@ -195,7 +195,7 @@
                 <td>
                     <span class="badge 
                         <c:choose>
-                            <c:when test="${task.statut == 'terminne'}">bg-success</c:when>
+                            <c:when test="${task.statut == 'Termine'}">bg-success</c:when>
                             <c:when test="${task.statut == 'En_cours'}">bg-warning</c:when>
                             <c:when test="${task.statut == 'A_faire'}">bg-danger</c:when>
                         </c:choose>">
@@ -271,7 +271,7 @@
             <select class="form-select" id="taskStatus" name="statut" required>
               <option value="A_faire">A_faire</option>
               <option value="En_cours">En_cours</option>
-              <option value="terminne">terminne</option>
+              <option value="Termine">terminne</option>
             </select>
           </div>
           

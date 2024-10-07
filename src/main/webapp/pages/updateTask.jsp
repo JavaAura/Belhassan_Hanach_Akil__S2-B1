@@ -51,13 +51,8 @@
             <input type="date" class="form-control" id="taskDueDate"  ng-model="task.dateEcheance" name="dateEcheance"  required>
           </div>
 
-          <!-- Task member ID input -->
-          <div class="mb-3">
-            <label for="membreId" class="form-label">Member ID</label>
-            <input type="number" class="form-control" id="membreId" name="membreId" value="{{task.membreId}}" required>
-          </div>
-        </div>
-        
+         </div>
+          
         <div class="modal-footer">
           <input type="hidden" name="taskId" value="{{task.id}}"/>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

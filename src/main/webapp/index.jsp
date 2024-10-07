@@ -133,16 +133,15 @@
 
 <div class="d-flex "style="height: 100vh ">
    
-    <div class="sidebar">
-
-        <img src="${pageContext.request.contextPath}/images/logotask.png" alt="logo Page">
-
-        <div class="icon">🚀</div>
-        <div class="icon">✔️</div>
-        <div class="icon">🛡️</div>
-        <div class="icon">⚙️</div>
-    </div>
-
+   	<div class="sidebar">
+			<img src="${pageContext.request.contextPath}/images/logotask.png"
+				alt="logo Page">
+			<a href="/project/projects" class="icon">
+		🚀 </a>
+			<div class="icon">✔️</div>
+			<div class="icon">🛡️</div>
+			<div class="icon">⚙️</div>
+		</div>
     <div class="main-content">
 
       
@@ -160,7 +159,7 @@
         	<h2 class="text-bold">List of Tasks</h2>
         </div>
         	<div>
-				
+				<a href="/project/EquipeServlet?action=list" class="btn btn-success mx-2">add New Equipe</a>
 				<button type="button" class="btn bg-primary bg-opacity-10 text-primary active bg-light-hover" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
 
     + Add Tasks
@@ -245,7 +244,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-
+ 
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Add New Task</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>

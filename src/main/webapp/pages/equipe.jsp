@@ -5,22 +5,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Teams</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/index.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/index.css" />
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+	rel="stylesheet" />
 </head>
 <body>
 
-<div class="container d-flex" style="height: 100vh">
-    <div class="sidebar">
-        <img src="../images/logotask.png" alt="logo Page">
-        <div class="icon">🚀</div>
-        <div class="icon">✔️</div>
-        <div class="icon">🛡️</div>
-        <div class="icon">⚙️</div>
-    </div>
-
-    <div class="main-content">
+	<div class=" d-flex " style="height: 100vh">
+		<div class="sidebar">
+			<img src="${pageContext.request.contextPath}/images/logotask.png"
+				alt="logo Page">
+			<a href="/project/projects" class="icon">
+		🚀 </a>
+			<div class="icon">✔️</div>
+			<div class="icon">🛡️</div>
+			<div class="icon">⚙️</div>
+		</div><div class="main-content">
         <div class="search-bar gap-1">
             <input type="search" class="form-control rounded" placeholder="Search a team" aria-label="Search" aria-describedby="search-addon" />
             <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init>Search</button>
@@ -47,7 +54,8 @@
                     <% } %>
                 </div>
                 <div>
-                    <button type="button" class="btn bg-primary bg-opacity-10 text-primary active bg-light-hover" data-bs-toggle="modal" data-bs-target="#addModal">
+               <a href="/project/MemberServlet?action=list" class="btn btn-success mx-2">add Member</a>
+     <button type="button" class="btn bg-primary bg-opacity-10 text-primary active bg-light-hover" data-bs-toggle="modal" data-bs-target="#addModal">
                         + Add Team
                     </button>
                 </div>

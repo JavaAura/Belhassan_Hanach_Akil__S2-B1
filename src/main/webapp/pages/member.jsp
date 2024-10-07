@@ -11,15 +11,17 @@
 </head>
 <body>
 
-<div class="container d-flex" style="height: 100vh;">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <img src="../images/logotask.png" alt="Logo">
-        <div class="icon">🚀</div>
-        <div class="icon">✔️</div>
-        <div class="icon">🛡️</div>
-        <div class="icon">⚙️</div>
-    </div>
+	<div class=" d-flex " style="height: 100vh">
+		<div class="sidebar">
+			<img src="${pageContext.request.contextPath}/images/logotask.png"
+				alt="logo Page">
+			<a href="/project/projects" class="icon">
+		🚀 </a>
+			<div class="icon">✔️</div>
+			<div class="icon">🛡️</div>
+			<div class="icon">⚙️</div>
+		</div>
+
 
     <!-- Main Content -->
     <div class="main-content">

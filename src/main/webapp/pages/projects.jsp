@@ -23,7 +23,8 @@
 		<div class="sidebar">
 			<img src="${pageContext.request.contextPath}/images/logotask.png"
 				alt="logo Page">
-			<div class="icon">🚀</div>
+			<a href="/project/projects" class="icon">
+		🚀 </a>
 			<div class="icon">✔️</div>
 			<div class="icon">🛡️</div>
 			<div class="icon">⚙️</div>

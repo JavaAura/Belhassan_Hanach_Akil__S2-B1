@@ -9,11 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.gestiondeprojet.Enteties.Equipe;
+import com.gestiondeprojet.Enteties.Member;
 import com.gestiondeprojet.service.EquipeService;
+import com.gestiondeprojet.service.MemberService;
 
 public class EquipeServlet extends HttpServlet {
 	
 	 private EquipeService equipeService = new EquipeService();
+	 private MemberService memberService = new MemberService();
 
 	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	        String action = request.getParameter("action");
@@ -57,6 +60,10 @@ public class EquipeServlet extends HttpServlet {
 
 	    private void listEquipes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	        List<Equipe> equipes = equipeService.fetchAllEquipes();
+	        for (Equipe equipe : equipes) {
+	            List<Member> membres = memberService.getMembresByEquipe(equipe.getId());
+	            equipe.setMembres(membres);
+	        }
 	        System.out.println(equipes);
 	        request.setAttribute("equipes", equipes);
 	        request.getRequestDispatcher("/pages/equipe.jsp").forward(request, response);

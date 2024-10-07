@@ -228,7 +228,7 @@
     </c:forEach>
 
     <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-      <a class="page-link" href="?page=${currentPage + 1}&pageSize=10" aria-label="Next">
+      <a class="page-link" href="?id=${projectid}&page=${currentPage + 1}&pageSize=10" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>

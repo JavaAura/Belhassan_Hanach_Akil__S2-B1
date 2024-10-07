@@ -93,14 +93,14 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 }
 
     private void addNewTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	    
+    	 int projectid = Integer.parseInt(request.getParameter("id"));	
     	    String titre = request.getParameter("titre");
     	    String description = request.getParameter("description");
     	    Priorite priorite = Priorite.valueOf(request.getParameter("priorite")) ;
     	    Statut statut =   Statut.valueOf(request.getParameter("statut")) ;
     	    LocalDate dateEcheance = LocalDate.parse(request.getParameter("dateEcheance"));
     	    int membreId = Integer.parseInt(request.getParameter("membreId"));
-    	    Task task =new Task( titre,  description,  priorite,  statut,  dateEcheance, membreId, 1);
+    	    Task task =new Task( titre,  description,  priorite,  statut,  dateEcheance, membreId, projectid);
     	    try {
 				taskService.addTask(task);
 				List<Task> tasks = taskService.getAllTasks();
@@ -114,14 +114,14 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     }
     private void updateTask(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException  {
     	int taskId = Integer.parseInt(request.getParameter("taskId"));
-    	
+    	 int projectid = Integer.parseInt(request.getParameter("id"));
     	  String titre = request.getParameter("titre");
   	    String description = request.getParameter("description");
   	    Priorite priorite = Priorite.valueOf(request.getParameter("priorite")) ;
   	    Statut statut =   Statut.valueOf(request.getParameter("statut")) ;
   	    LocalDate dateEcheance = LocalDate.parse(request.getParameter("dateEcheance"));
   	    int membreId = Integer.parseInt(request.getParameter("membreId"));
-  	    Task task=new Task( taskId,titre,  description,  priorite,  statut,  dateEcheance, membreId, 1);
+  	    Task task=new Task( taskId,titre,  description,  priorite,  statut,  dateEcheance, membreId, projectid);
   	    try {
   	    	taskService.updateTask(task);
 			List<Task> tasks = taskService.getAllTasks();

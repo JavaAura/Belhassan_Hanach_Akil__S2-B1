@@ -3,8 +3,8 @@
   <display-name>project</display-name>
   <welcome-file-list>  
      
-       <welcome-file>ProjectServlet</welcome-file>  
-       <welcome-file>TaskServelet</welcome-file>
+       <welcome-file>projects</welcome-file>  
+      
   </welcome-file-list>
 
   <servlet>

@@ -11,10 +11,12 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/index.css" />
    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
  
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
     <script>
 	  var app = angular.module('taskApp', []);
 	  app.controller('taskCtrl', function($scope)
@@ -131,16 +133,15 @@
 
 <div class="d-flex "style="height: 100vh ">
    
-    <div class="sidebar">
-
-        <img src="${pageContext.request.contextPath}/images/logotask.png" alt="logo Page">
-
-        <div class="icon">🚀</div>
-        <div class="icon">✔️</div>
-        <div class="icon">🛡️</div>
-        <div class="icon">⚙️</div>
-    </div>
-
+   	<div class="sidebar">
+			<img src="${pageContext.request.contextPath}/images/logotask.png"
+				alt="logo Page">
+			<a href="/project/projects" class="icon">
+		🚀 </a>
+			<div class="icon">✔️</div>
+			<div class="icon">🛡️</div>
+			<div class="icon">⚙️</div>
+		</div>
     <div class="main-content">
 
       
@@ -158,7 +159,7 @@
         	<h2 class="text-bold">List of Tasks</h2>
         </div>
         	<div>
-				
+				<a href="/project/EquipeServlet?action=list" class="btn btn-success mx-2">add New Equipe</a>
 				<button type="button" class="btn bg-primary bg-opacity-10 text-primary active bg-light-hover" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
 
     + Add Tasks
@@ -194,7 +195,7 @@
                 <td>
                     <span class="badge 
                         <c:choose>
-                            <c:when test="${task.statut == 'terminne'}">bg-success</c:when>
+                            <c:when test="${task.statut == 'Termine'}">bg-success</c:when>
                             <c:when test="${task.statut == 'En_cours'}">bg-warning</c:when>
                             <c:when test="${task.statut == 'A_faire'}">bg-danger</c:when>
                         </c:choose>">
@@ -214,19 +215,19 @@
            <nav aria-label="Page navigation example">
   <ul class="pagination">
     <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-      <a class="page-link" href="?page=${currentPage - 1}&pageSize=10" aria-label="Previous">
+      <a class="page-link" href="?id=${projectid}&page=${currentPage - 1}&pageSize=10" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
 
     <c:forEach var="i" begin="1" end="${totalPages}">
       <li class="page-item ${currentPage == i ? 'active' : ''}">
-        <a class="page-link" href="?page=${i}&pageSize=10">${i}</a>
+        <a class="page-link" href="?id=${projectid}&page=${i}&pageSize=10">${i}</a>
       </li>
     </c:forEach>
 
     <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-      <a class="page-link" href="?page=${currentPage + 1}&pageSize=10" aria-label="Next">
+      <a class="page-link" href="?id=${projectid}&page=${currentPage + 1}&pageSize=10" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>
@@ -243,7 +244,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-
+ 
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Add New Task</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -270,7 +271,7 @@
             <select class="form-select" id="taskStatus" name="statut" required>
               <option value="A_faire">A_faire</option>
               <option value="En_cours">En_cours</option>
-              <option value="terminne">terminne</option>
+              <option value="Termine">terminne</option>
             </select>
           </div>
           
@@ -298,7 +299,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save Task</button>
+          <button name="id" value="${projectid }" type="submit" class="btn btn-primary">Save Task</button>
         </div>
       </form>
     </div>

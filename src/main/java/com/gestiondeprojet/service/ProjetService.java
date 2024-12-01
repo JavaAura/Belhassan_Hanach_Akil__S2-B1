@@ -52,10 +52,12 @@ public class ProjetService {
             return false; 
         }
     }
+    
     public List<Projet> searchProjects(String searchName) {
         if (searchName == null || searchName.isEmpty()) {
             return getAllProjects(); 
         }
         return projetDao.searchProject(searchName);
     }
+    
 }

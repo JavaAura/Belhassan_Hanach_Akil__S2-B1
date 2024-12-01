@@ -132,14 +132,15 @@ public class TaskDaoImp implements TaskDao {
 	        return tache;
 	    }
 	 @Override
-	 public List<Task> getTasksPaginated(int page, int pageSize) throws SQLException {
+	 public List<Task> getTasksPaginated(int page, int pageSize,int projectid) throws SQLException {
 		    int offset = (page - 1) * pageSize;
-		    String sql = "SELECT * FROM tache LIMIT ? OFFSET ?";
+		    String sql = "SELECT * FROM tache where projetId = ?  LIMIT ? OFFSET ?";
 		    
 		    try (Connection conn = getConnection();
 		             PreparedStatement ps = conn.prepareStatement(sql)) {
-		        ps.setInt(1, pageSize);
-		        ps.setInt(2, offset);
+		    	 ps.setInt(1, projectid);
+		        ps.setInt(2, pageSize);
+		        ps.setInt(3, offset);
 
 		        try (ResultSet rs = ps.executeQuery()) {
 		            List<Task> tasks = new ArrayList<>();
@@ -152,11 +153,12 @@ public class TaskDaoImp implements TaskDao {
 		    }
 		}
 	 @Override
-		public int getTotalTaskCount() throws SQLException {
-		    String sql = "SELECT COUNT(*) FROM tache";
+		public int getTotalTaskCount(int projectid) throws SQLException {
+		    String sql = "SELECT COUNT(*) FROM tache where projetId = ? ";
 		    try (Connection conn = getConnection();
-		             PreparedStatement ps = conn.prepareStatement(sql);
-		         ResultSet rs = ps.executeQuery()) {
+		             PreparedStatement ps = conn.prepareStatement(sql);) { 
+		    	 ps.setInt(1, projectid);
+		    	ResultSet rs = ps.executeQuery();
 		        if (rs.next()) {
 		            return rs.getInt(1);
 		        }
